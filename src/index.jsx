@@ -1,36 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      now: Date()
-    };
-  }
+function Clock() {
+  const [date, setDate] = useState(null);
 
-  tick() {
-    this.setState((a, b) => ({
-      now: Date()
-    }));
-  }
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setDate(Date());
+    }, 1000);
+    return () => {
+      clearInterval(timerId)
+    }
+  });
 
-  componentDidMount() {
-    this.timeerId = setInterval(() => {
-      this.tick()
-    }, 1000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timeerId)
-  }
-
-  render() {
-    return (
-      <span>{this.state.now}</span>
-    );
-  }
+  return (
+    <span>{date}</span>
+  )
 }
 
 function Clocks() {
